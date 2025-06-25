@@ -1,0 +1,30 @@
+{
+    "hotels": {
+      "hotels": [
+        {
+          "code": 24339,
+          "name": "Hotel D'Or",
+          "categoryCode": "3EST",
+          "categoryName": "3 STARS",
+          "destinationCode": "PMI",
+          "destinationName": "Majorca",
+          "zoneCode": 90,
+          "zoneName": "Cala d'Or",
+          "latitude": "39.37479400000000000000",
+          "longitude": "3.22711600000000000000",
+          "rooms": [
+            {
+              "code": "DBT.ST",
+              "name": "DOUBLE OR TWIN STANDARD 2 ADULTS",
+              "rates": [
+                "..."
+              ]
+            }
+          ],
+          "minRate": "344.66",
+          "maxRate": "515.32",
+          "currency": "EUR"
+        }
+      ]
+    }
+  }

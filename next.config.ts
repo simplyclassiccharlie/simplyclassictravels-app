@@ -5,8 +5,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'via.placeholder.com',
-        port: '',
-        pathname: '/**',
+      },
+      {
+        protocol: 'http',
+        hostname: 'photos.hotelbeds.com',
       },
     ],
   },
