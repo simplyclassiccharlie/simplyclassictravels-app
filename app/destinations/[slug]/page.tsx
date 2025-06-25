@@ -1,72 +1,41 @@
-import Header from './components/Header';
-import DestinationCard from './components/DestinationCard';
-import admin from 'firebase-admin';
+import { adminDb } from '@/app/lib/firebase-admin';
+import { DocumentData } from 'firebase-admin/firestore';
+import Image from 'next/image';
+import Link from 'next/link';
 
-// Import the service account key from the file system
-// The '../' is needed to go up one level from the 'app' directory to the root
-import serviceAccount from '../serviceAccountKey.json';
-
-// Define the shape of our destination data for TypeScript
 interface Destination {
-  id: string;
-  title: string;
-  description: string;
-  imageUrl: string;
+  name: string;
+  tagline: string;
+  mainImageUrl: string;
 }
 
-// Initialize the Firebase Admin App (only if it hasn't been already)
-// This check prevents errors during hot-reloading in development
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
-  });
+async function getDestination(slug: string): Promise<Destination | null> {
+  const docRef = adminDb.collection('destinations').doc(slug);
+  const docSnap = await docRef.get();
+
+  if (docSnap.exists) {
+    return docSnap.data() as Destination;
+  } else {
+    return null;
+  }
 }
 
-// Get a reference to the admin instance of Firestore
-const adminDb = admin.firestore();
+export default async function DestinationPage({ params }: { params: { slug: string } }) {
+  const destination = await getDestination(params.slug);
 
-// This function now uses the adminDb to fetch data
-async function getDestinations(): Promise<Destination[]> {
-  const destinationSnapshot = await adminDb.collection('destinations').get();
-  const destinationList = destinationSnapshot.docs.map(doc => {
-    const data = doc.data();
-    return {
-      id: doc.id,
-      title: data.title,
-      description: data.description,
-      imageUrl: data.imageUrl,
-    };
-  });
-  return destinationList;
-}
-
-export default async function Home() {
-  const destinations = await getDestinations();
+  if (!destination) {
+    return <div>Destination not found.</div>;
+  }
 
   return (
-    <>
-      <Header />
-
-      <main className="content-area">
-        <h1>Your Next Adventure Awaits</h1>
-        <p>Discover timeless destinations with Simply Classic Travels. Our curated tours offer a blend of luxury, culture, and history.</p>
-        <a href="#" className="cta-button">Explore Tours</a>
-
-        <section className="destinations-section">
-          <h2>Popular Destinations</h2>
-          <div className="destinations-grid">
-            {destinations.map((dest) => (
-              <DestinationCard
-                key={dest.id}
-                id={dest.id}
-                title={dest.title}
-                description={dest.description}
-                imageUrl={dest.imageUrl}
-              />
-            ))}
-          </div>
-        </section>
-      </main>
-    </>
+    <div className="destination-detail-container">
+      <Link href="/" className="back-link">← Back to Home</Link>
+      <h1 className="destination-title">{destination.name}</h1>
+      <div className="image-container">
+        {/* This is the updated Image component */}
+        <Image src={destination.mainImageUrl} alt={`Image of ${destination.name}`} fill style={{ objectFit: 'cover' }} />
+      </div>
+      <p className="destination-description">{destination.tagline}</p>
+    </div>
   );
 }

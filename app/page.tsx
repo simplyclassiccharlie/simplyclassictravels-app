@@ -1,40 +1,26 @@
 import Header from './components/Header';
 import DestinationCard from './components/DestinationCard';
-import admin from 'firebase-admin';
+import { adminDb } from './lib/firebase-admin'; // <-- IMPORT our clean connection
+import { DocumentData } from 'firebase-admin/firestore';
 
-// Import the service account key from the file system
-// The '../' is needed to go up one level from the 'app' directory to the root
-import serviceAccount from '../serviceAccountKey.json';
-
-// Define the shape of our destination data for TypeScript
 interface Destination {
   id: string;
-  title: string;
-  description: string;
-  imageUrl: string;
+  name: string;
+  city: string;
+  tagline: string;
+  mainImageUrl: string;
 }
 
-// Initialize the Firebase Admin App (only if it hasn't been already)
-// This check prevents errors during hot-reloading in development
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
-  });
-}
-
-// Get a reference to the admin instance of Firestore
-const adminDb = admin.firestore();
-
-// This function now uses the adminDb to fetch data
 async function getDestinations(): Promise<Destination[]> {
   const destinationSnapshot = await adminDb.collection('destinations').get();
   const destinationList = destinationSnapshot.docs.map(doc => {
-    const data = doc.data();
+    const data = doc.data() as DocumentData;
     return {
       id: doc.id,
-      title: data.title,
-      description: data.description,
-      imageUrl: data.imageUrl,
+      name: data.name,
+      city: data.city,
+      tagline: data.tagline,
+      mainImageUrl: data.mainImageUrl,
     };
   });
   return destinationList;
@@ -46,7 +32,6 @@ export default async function Home() {
   return (
     <>
       <Header />
-
       <main className="content-area">
         <h1>Your Next Adventure Awaits</h1>
         <p>Discover timeless destinations with Simply Classic Travels. Our curated tours offer a blend of luxury, culture, and history.</p>
@@ -59,9 +44,10 @@ export default async function Home() {
               <DestinationCard
                 key={dest.id}
                 id={dest.id}
-                title={dest.title}
-                description={dest.description}
-                imageUrl={dest.imageUrl}
+                name={dest.name}
+                city={dest.city}
+                tagline={dest.tagline}
+                mainImageUrl={dest.mainImageUrl}
               />
             ))}
           </div>
