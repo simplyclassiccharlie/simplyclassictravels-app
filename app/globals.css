@@ -1,0 +1,112 @@
+/* Reset and Basic Setup */
+body {
+  background-color: #f4f4f9; /* A softer, warmer off-white */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  color: #333;
+}
+
+/* Header and Navigation Styles */
+.main-header {
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 1rem 2rem;
+}
+
+.main-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-logo {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #5d3a9b; /* A nice deep purple */
+  text-decoration: none;
+}
+
+.main-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.main-nav ul li {
+  margin-left: 2rem;
+}
+
+.main-nav ul li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+/* Main Content Area */
+.content-area {
+  text-align: center;
+  padding: 5rem 2rem;
+}
+
+.content-area h1 {
+  font-size: 3rem;
+  color: #333;
+}
+
+.cta-button {
+  display: inline-block;
+  background-color: #5d3a9b;
+  color: #ffffff;
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  text-decoration: none;
+  margin-top: 1.5rem;
+  font-weight: bold;
+}
+
+/* Destinations Section Styles */
+.destinations-section {
+  padding: 4rem 2rem;
+  background-color: #ffffff;
+}
+
+.destinations-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+}
+
+.destinations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.destination-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  overflow: hidden; /* Ensures the image corners are rounded */
+  text-align: left;
+}
+
+.destination-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover; /* Prevents images from stretching */
+  display: block;
+}
+
+.destination-card h3 {
+  padding: 1rem 1.5rem 0.5rem 1.5rem;
+  margin: 0;
+}
+
+.destination-card p {
+  padding: 0 1.5rem 1.5rem 1.5rem;
+  margin: 0;
+  color: #666;
+}
